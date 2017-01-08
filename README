@@ -1,16 +1,16 @@
 
  smart mv или sysadmin's mv. mv жонглирующая путем назначения.
 
- smv [-n|-b|-p][-h helper] SOURCE_PATTERN DESTINATION_PATTERN
+ smv [-d char|-n|-i|-p|-v|-m flags|-h helper] SOURCE_PATTERN DESTINATION_PATTERN
 
- -d, --delimiter	символ разделителя для dest_pattern (по умолчанию %)
+ -d, --delimiter	символ разделителя для destination_pattern (по умолчанию %)
  -n, --dry-run 		холостой запуск
  -h, --helper		имя хелпера
  -i, --ignore-case	игнорировать регистр символов в source_pattern
  -p, --make-path	создать выходной путь (каталог) для файла
  -m, --mv-flags		флаги mv
  -v, --verbose		детальный вывод
- -h, --help		справка
+ -h, --help		    справка
 
  Принцип работы:
 
@@ -61,9 +61,11 @@
 
  Примеры использования:
 
- Перемещение файла в каталог формата yyyy/mm/dd в зависимости от времени изменения файла.
+ Перемещение файла в каталог формата yyyy/mm/dd в зависимости от времени изменения файла:
+
  smv -ph "stat -c %y" filename %1,1,4%/%1,6,2%/%1,9,2%
 
- переименовать все файлы с расширением .txt в md5 хэш.
+ переименовать все файлы с расширением .txt в md5 хэш:
+
  smv -h md5sum "*.txt" %1%.txt или
  smv -h md5sum "*.txt" %1%$
