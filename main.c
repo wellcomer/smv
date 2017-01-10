@@ -417,6 +417,8 @@ char *FillPattern (char *pattern, char *delimiter, char *varTable[], char *fileN
     int itemNumber = 1, varTableIndex;
     struct offset off;
 
+    size_t outputLength = 1;
+
     debug("\nFillPattern.pattern: %s\nFillPattern.fileName: %s\nFillPattern.fileExtension: %s\nFillPattern.varTableItemsCount: %d\n", pattern, fileName, fileExtension, varTableItemsCount);
 
     while (token != NULL) {
@@ -480,21 +482,29 @@ char *FillPattern (char *pattern, char *delimiter, char *varTable[], char *fileN
 
         size_t tokenLength = end - start; // bytes count
 
+        if (tokenLength == 0) // non utf8 token
+            tokenLength = strlen(token); // fix it length
+
+        outputLength += tokenLength;
+
+        debug("FillPattern.tokenLength: %d\n", tokenLength);
+
         if (output == NULL){
-            output = malloc(tokenLength+1);
-            memset(output, 0, tokenLength+1);
+            output = malloc(outputLength);
+            memset(output, 0, outputLength);
         }
         else
-            output = realloc (output, strlen(output) + tokenLength + 1);
+            output = realloc (output, outputLength);
 
         if (offsetPresent){
             strncat(output, token+start, tokenLength);
-            debug("FillPattern.token+offset: %s\n", output+strlen(output)-tokenLength);
+            debug("FillPattern.token+offset: %s\n", output+outputLength-tokenLength-1);
         }
         else
             strcat(output, token);
 
         debug("FillPattern.output: %s\n", output);
+        debug("FillPattern.outputLength: %d\n", outputLength-1);
 
         token = strtok (NULL, delimiter);
         itemNumber++;
