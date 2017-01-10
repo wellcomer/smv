@@ -60,6 +60,7 @@ static struct argp_option ops[] = {
     { "ignore-case", 'i', 0, 0, "Case insensitive match for the SOURCE_PATTERN"},
     { "make-path", 'p', 0, 0, "Make path for output file"},
     { "mv-flags", 'm', "\"flags\"", 0, "mv flags"},
+    { "quiet", 'q', 0, 0, "Be quiet (no output)"},
     { "verbose", 'v', 0, 0, "Be verbose"},
     { 0 }
 };
@@ -71,6 +72,7 @@ struct arguments {
     bool ignore_case;
     bool make_path;
     char *mv_flags;
+    bool quiet_mode;
     bool verbose;
     char *args[2];
 };
@@ -102,6 +104,9 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state)
             break;
         case 'p':
             arguments->make_path = true;
+            break;
+        case 'q':
+            arguments->quiet_mode = true;
             break;
         case 'v':
             arguments->verbose = true;
@@ -514,7 +519,7 @@ char *FillPattern (char *pattern, char *delimiter, char *varTable[], char *fileN
     return output;
 }
 
-int Rename(char *mvFlags, char *oldPath, char *newPath, bool dryRun, bool makePath)
+int Rename(char *mvFlags, char *oldPath, char *newPath, bool dryRun, bool makePath, bool quietMode)
 {
     char *dirComponent, *fileComponent, *dirName, *fileName;
     char *newPath2 = newPath;
@@ -557,11 +562,10 @@ int Rename(char *mvFlags, char *oldPath, char *newPath, bool dryRun, bool makePa
 
     debug("Rename.mvFlags: %s\nRename.oldPath: %s\nRename.newPath: %s\n", mvFlags, oldPath, newPath2);
 
-    if (dryRun){
-        if (!verbose)
-            printf("%s >> %s\n", oldPath, newPath2);
-    }
-    else
+    if (!quietMode && !verbose)
+        printf("%s >> %s\n", oldPath, newPath2);
+
+    if (!dryRun)
         exit_code = RunMV(mvFlags, oldPath, newPath2);
 
     if (newPath2 != newPath)
@@ -587,6 +591,7 @@ int main(int argc, char *argv[])
     arguments.ignore_case = false;
     arguments.make_path = false;
     arguments.dry_run = false;
+    arguments.quiet_mode = false;
 
     argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
@@ -619,7 +624,7 @@ int main(int argc, char *argv[])
             dstPath = FillPattern(dstPattern, arguments.delimiter, varTable, srcPattern, NULL, varTableItemsCount);
             if (dstPath == NULL)
                 return EXIT_ERR_BAD_PATTERN;
-            if (Rename(arguments.mv_flags, srcPattern, dstPath, arguments.dry_run, arguments.make_path) == ERR_RENAME_FAILED){
+            if (Rename(arguments.mv_flags, srcPattern, dstPath, arguments.dry_run, arguments.make_path, arguments.quiet_mode) == ERR_RENAME_FAILED){
                 exit_status = EXIT_ERR_RENAME_FAILED;
             }
             else
@@ -665,7 +670,7 @@ int main(int argc, char *argv[])
                     free(fileExtension);
                     if (dstPath == NULL)
                         return EXIT_ERR_BAD_PATTERN;
-                    if (Rename(arguments.mv_flags, file.path, dstPath, arguments.dry_run, arguments.make_path) == ERR_RENAME_FAILED){
+                    if (Rename(arguments.mv_flags, file.path, dstPath, arguments.dry_run, arguments.make_path, arguments.quiet_mode) == ERR_RENAME_FAILED){
                         exit_status = EXIT_ERR_RENAME_FAILED;
                     }
                     free (dstPath);
