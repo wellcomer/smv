@@ -3,14 +3,15 @@
 
  smv [-d char|-n|-i|-p|-v|-m flags|-h helper] SOURCE_PATTERN DESTINATION_PATTERN
 
- -d, --delimiter	символ разделителя для destination_pattern (по умолчанию %)
- -n, --dry-run 		холостой запуск
- -h, --helper		имя хелпера
- -i, --ignore-case	игнорировать регистр символов в source_pattern
- -p, --make-path	создать выходной путь (каталог) для файла
- -m, --mv-flags		флаги mv
- -v, --verbose		детальный вывод
- -h, --help         справка
+ -d, --delimiter        символ разделителя для destination_pattern (по умолчанию %)
+ -n, --dry-run          холостой запуск
+ -h, --helper           имя хелпера
+ -i, --ignore-case      игнорировать регистр символов в source_pattern
+ -m, --mv-flags         флаги mv
+ -p, --make-path        создать выходной путь (каталог) для файла
+ -q, --quiet            тихий режим (не показывать имена файлов)
+ -v, --verbose          детальный вывод
+ -h, --help             справка
 
  Принцип работы:
 
