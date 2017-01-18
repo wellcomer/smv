@@ -14,8 +14,8 @@ function assert {
 }
 
 function run {
-    desc=$1; shift; aval=$1; shift; runc=$@
-    echo $tnum.$desc:; echo $runc; $runc; assert $? $aval; echo
+    desc=$1; shift; aval=$1; shift; runc="$@"
+    echo $tnum.$desc:; echo $runc; /bin/bash -c "$runc"; assert $? $aval; echo
     let tnum=tnum+1
 }
 
@@ -63,6 +63,14 @@ touch $tmpf1
 run "Smv with md5sum helper and non-default delimiter" 0 $smv -d# --helper md5sum $tmpf1 $tmpdir/#1,1,4
 run "Test dest" 0 test -e $tmpdir/d41d
 rm -rf $tmpdir/d41d
+
+tmpdir2=$tmpf1$tmpf2
+mkdir -p $tmpdir2
+touch -d 2004-02-29 $tmpdir2/datetest.txt
+run "Smv with stat helper" 0 $smv -ph \'stat -c %y\' $tmpdir2/datetest.txt $tmpdir/smv/%1,1,4%/%1,6,2%/%1,9,2%/%0
+run "Test dest" 0 test -e $tmpdir/smv/2004/02/29/datetest.txt
+rm -rf $tmpdir/smv
+rm -rf $tmpf1
 
 tmpf3=$tmpdir/$(echo -n `basename $tmpf1` | tr 'a-z' 'A-Z')
 touch $tmpf1
