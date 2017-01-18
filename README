@@ -1,7 +1,7 @@
 
  smart mv или sysadmin's mv. mv жонглирующая путем назначения.
 
- smv [-d char|-n|-i|-p|-v|-m flags|-h helper] SOURCE_PATTERN DESTINATION_PATTERN
+ smv [-d char|-n|-i|-p|-q|-v|-m flags|-h helper] SOURCE_PATTERN DESTINATION_PATTERN
 
  -d, --delimiter        символ разделителя для destination_pattern (по умолчанию %)
  -n, --dry-run          холостой запуск
