@@ -4,7 +4,7 @@ smv="./smv"
 
 if ! test -e $smv; then
     echo "No smv bin found ($smv)"
-    exit
+    exit 1
 fi
 
 pass=0
