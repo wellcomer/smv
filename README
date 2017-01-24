@@ -1,5 +1,5 @@
 
- smart mv или sysadmin's mv. mv жонглирующая путем назначения.
+ smart mv или sysadmin's mv. mv с помощниками.
 
  smv [-d char|-n|-i|-p|-q|-v|-m flags|-h helper] SOURCE_PATTERN DESTINATION_PATTERN
 
@@ -70,3 +70,35 @@
 
  smv -h md5sum "*.txt" %1%.txt или
  smv -h md5sum "*.txt" %1%$
+
+ Скрипт сортировки *.txt файлов по каталогам год/месяц изменения файла:
+
+ #!/bin/sh
+ wd=/home/samba/all-msg/arc
+ /usr/local/bin/smv -ph 'stat -c %y' $wd/'*.txt' $wd/%1,1,4%/%1,6,2%/%0
+
+ Сборка:
+
+ Клонирование репозитория:
+
+ перейти в произвольный каталог к примеру /home/user
+
+ cd /home/user
+ git clone git://github.com/wellcomer/smv.git
+
+ будет создан каталог /home/user/smv с исходными текстами
+
+ для дальнейших обновлений можно использовать git pull:
+
+ cd /home/user/smv
+ git pull
+
+ Простой вариант:
+
+ Перейти в каталог с исходными текстами программы, выполнить: gcc main.c -DNDEBUG -o smv
+
+ Сборка с помощью cmake:
+
+ cd /home/user/smv
+ cmake .
+ make
