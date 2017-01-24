@@ -77,6 +77,22 @@
  wd=/home/samba/all-msg/arc
  /usr/local/bin/smv -ph 'stat -c %y' $wd/'*.txt' $wd/%1,1,4%/%1,6,2%/%0
 
+ Exit коды:
+
+ 0 - Удачное завершение
+
+ #define EXIT_ERR_NOT_FOUND 1
+ Исходный файл не найден
+
+ #define EXIT_ERR_HELPER_FAILED 2
+ Ошибка запуска хелпера
+
+ #define EXIT_ERR_BAD_PATTERN
+ Ошибки в шаблоне
+
+ #define EXIT_ERR_RENAME_FAILED 4
+ Не удалось переименовать файл
+
  Сборка:
 
  Клонирование репозитория:
