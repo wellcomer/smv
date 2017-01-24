@@ -2,6 +2,11 @@
 
 smv="./smv"
 
+if ! test -e $smv; then
+    echo "No smv bin found ($smv)"
+    exit
+fi
+
 pass=0
 fail=0
 tnum=1
