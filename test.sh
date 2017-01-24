@@ -1,6 +1,6 @@
 #!/bin/bash
 
-smv="/home/sergo/ClionProjects/smv/cmake-build-debug/smv"
+smv="./smv"
 
 pass=0
 fail=0
