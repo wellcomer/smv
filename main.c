@@ -222,6 +222,8 @@ void debug (const char *format, ...)
     va_end(argptr);
 }
 
+// Check for a match of a fileName
+
 bool MatchPattern (char *pattern, char *fileName, bool ignoreCase)
 {
     int flags = FNM_EXTMATCH;
@@ -234,6 +236,9 @@ bool MatchPattern (char *pattern, char *fileName, bool ignoreCase)
 
     return false;
 }
+
+// Split by space
+// returns tokens count
 
 int Split (char *str, char *arr[], int maxCount)
 {
@@ -254,6 +259,9 @@ int Split (char *str, char *arr[], int maxCount)
     }
     return tokenCount;
 }
+
+// Escape quote char (") inside the string with (\")
+// returns a new allocated string
 
 char* EscapeChars (char *str)
 {
@@ -286,6 +294,8 @@ char* EscapeChars (char *str)
 
     return newstr;
 }
+
+// Run --helper program
 
 int RunHelper(char *helper, char *filePath, char *helperOutput)
 {
@@ -336,6 +346,8 @@ int RunHelper(char *helper, char *filePath, char *helperOutput)
     return helperOutputLength;
 }
 
+// Run stock mv
+
 int RunMV (char *flags, char *oldPath, char *newPath)
 {
     if (oldPath == NULL || newPath == NULL)
@@ -357,7 +369,7 @@ int RunMV (char *flags, char *oldPath, char *newPath)
     if (args[0] == NULL || args[1] == NULL)
         return -1;
 
-    sprintf(mvCmdLine, "mv %s %s %s", flags, args[0], args[1]);
+    sprintf(mvCmdLine, "mv %s %s %s", flags, args[0], args[1]); // 10 add. symbols here: mv+3spaces+4quotes+zero char
 
     debug ("\nRunMV.mvCmdLine: %s\n", mvCmdLine);
 
@@ -407,7 +419,7 @@ bool FindOffset (char *str, size_t startPosition, struct offset *offt)
     return true;
 }
 
-// Fill pattern with items from varTable
+// Fill the DESTINATION_PATTERN with items from varTable
 
 char *FillPattern (char *pattern, char *delimiter, char *varTable[], char *fileName, char *fileExtension, int varTableItemsCount)
 {
@@ -518,6 +530,8 @@ char *FillPattern (char *pattern, char *delimiter, char *varTable[], char *fileN
     free(pattern_copy);
     return output;
 }
+
+// Magic is here
 
 int Rename(char *mvFlags, char *oldPath, char *newPath, bool dryRun, bool makePath, bool quietMode)
 {
