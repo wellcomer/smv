@@ -74,6 +74,16 @@ mkdir -p $tmpdir2
 touch -d 2004-02-29 $tmpdir2/datetest.txt
 run "Smv with stat helper" 0 $smv -ph \'stat -c %y\' $tmpdir2/datetest.txt $tmpdir/smv/%1,1,4%/%1,6,2%/%1,9,2%/%0
 run "Test dest" 0 test -e $tmpdir/smv/2004/02/29/datetest.txt
+
+touch $tmpdir/smv/1.txt
+touch $tmpdir/smv/2004/2.txt
+touch $tmpdir/smv/2004/02/3.txt
+run "Smv recursive (find + basename)" 0 find $tmpdir/smv -name \'*.txt\' -exec $smv -h \'basename -s .txt\' {} %~%/%1%.ext '\;'
+run "Test dest" 0 test -e $tmpdir/smv/2004/02/29/datetest.ext
+run "Test dest" 0 test -e $tmpdir/smv/2004/02/3.ext
+run "Test dest" 0 test -e $tmpdir/smv/2004/2.ext
+run "Test dest" 0 test -e $tmpdir/smv/1.ext
+
 rm -rf $tmpdir/smv
 rm -rf $tmpf1
 
