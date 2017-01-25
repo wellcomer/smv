@@ -36,7 +36,7 @@
 
 // Internal error codes
 #define ERR_RENAME_FAILED -1
-#define ERR_HELPER_FAILED  -1
+#define ERR_HELPER_FAILED -1
 
 // Exit error codes
 #define EXIT_ERR_NOT_FOUND 1
@@ -421,7 +421,7 @@ bool FindOffset (char *str, size_t startPosition, struct offset *offt)
 
 // Fill the DESTINATION_PATTERN with items from varTable
 
-char *FillPattern (char *pattern, char *delimiter, char *varTable[], char *fileName, char *fileExtension, int varTableItemsCount)
+char *FillPattern (char *pattern, char *delimiter, char *varTable[], char *dirName, char *fileName, char *fileExtension, int varTableItemsCount)
 {
     char *pattern_copy = strdup(pattern);
 
@@ -436,7 +436,7 @@ char *FillPattern (char *pattern, char *delimiter, char *varTable[], char *fileN
 
     size_t outputLength = 1;
 
-    debug("\nFillPattern.pattern: %s\nFillPattern.fileName: %s\nFillPattern.fileExtension: %s\nFillPattern.varTableItemsCount: %d\n", pattern, fileName, fileExtension, varTableItemsCount);
+    debug("\nFillPattern.pattern: %s\nFillPattern.dirName: %s\nFillPattern.fileName: %s\nFillPattern.fileExtension: %s\nFillPattern.varTableItemsCount: %d\n", pattern, dirName, fileName, fileExtension, varTableItemsCount);
 
     while (token != NULL) {
 
@@ -460,6 +460,10 @@ char *FillPattern (char *pattern, char *delimiter, char *varTable[], char *fileN
         else if (strncmp(token, "$", 1)==0){
             offsetPresent = FindOffset(token, 1, &off);
             token = (fileExtension != NULL) ? fileExtension : "";
+        }
+        else if (strncmp(token, "~", 1)==0){
+            offsetPresent = FindOffset(token, 1, &off);
+            token = dirName;
         }
         else {
             size_t digitWidth = 0;
@@ -635,7 +639,7 @@ int main(int argc, char *argv[])
 
         if (RunHelper(arguments.helper, srcPattern, filterOutput) != ERR_HELPER_FAILED){
             varTableItemsCount = Split(filterOutput, varTable, VARTABLE_SIZE);
-            dstPath = FillPattern(dstPattern, arguments.delimiter, varTable, srcPattern, NULL, varTableItemsCount);
+            dstPath = FillPattern(dstPattern, arguments.delimiter, varTable, srcPattern, srcPattern, NULL, varTableItemsCount);
             if (dstPath == NULL)
                 return EXIT_ERR_BAD_PATTERN;
             if (Rename(arguments.mv_flags, srcPattern, dstPath, arguments.dry_run, arguments.make_path, arguments.quiet_mode) == ERR_RENAME_FAILED){
@@ -680,7 +684,7 @@ int main(int argc, char *argv[])
                         fileExtension = malloc(strlen(file.extension)+2);
                         sprintf(fileExtension, ".%s", file.extension);
                     }
-                    dstPath = FillPattern(dstPattern, arguments.delimiter, varTable, file.name, fileExtension, varTableItemsCount);
+                    dstPath = FillPattern(dstPattern, arguments.delimiter, varTable, dirName, file.name, fileExtension, varTableItemsCount);
                     free(fileExtension);
                     if (dstPath == NULL)
                         return EXIT_ERR_BAD_PATTERN;
