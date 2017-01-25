@@ -11,6 +11,15 @@ pass=0
 fail=0
 tnum=1
 
+function check_bin {
+    echo -n "check $1: "
+    if ! which "$1" 2>&1 > /dev/null; then
+        echo fail
+        exit 1
+    fi
+    echo ok
+}
+
 function assert {
     echo -n "exit_code: "
     if [ $1 -eq $2 ]; then echo "PASS ($1)" && let pass=pass+1 && return; fi
@@ -23,6 +32,13 @@ function run {
     echo $tnum.$desc:; echo $runc; /bin/bash -c "$runc"; assert $? $aval; echo
     let tnum=tnum+1
 }
+
+echo
+check_bin touch
+check_bin rm
+check_bin md5sum
+check_bin find
+echo
 
 tmpf1=$(mktemp -u)
 tmpf2=$(mktemp -u)
