@@ -93,7 +93,7 @@
  #define EXIT_ERR_HELPER_FAILED 2
  Ошибка запуска хелпера
 
- #define EXIT_ERR_BAD_PATTERN
+ #define EXIT_ERR_BAD_PATTERN 3
  Ошибки в шаблоне
 
  #define EXIT_ERR_RENAME_FAILED 4
