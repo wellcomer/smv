@@ -21,12 +21,12 @@
 #### The principle of operation:
 
  For each file that matches the SOURCE_PATTERN template, run the program specified
- by the --helper switch, give it the full path to the file. Read the first line from
+ by the `--helper` switch, give it the full path to the file. Read the first line from
  stdout of the helper, split into words, use a space for separator. Fill the array
  of variables with the values obtained. In DESTINATION_PATTERN find the variables
- and replace them with values. If the --make-path switch is specified create a
- output directory (like a mkdir -p). Run stock mv with the flags specified by the
- --mv-flags switch.
+ and replace them with values. If the `--make-path` switch is specified create a
+ output directory (like a `mkdir -p`). Run stock mv with the flags specified by the
+ `--mv-flags` switch.
 
  SOURCE_PATTERN can be a full file or directory name, and also include shell
  wildcards (in this case the template must be escaped with quotes).
