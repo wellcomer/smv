@@ -7,4 +7,4 @@ compiler:
   - clang
 
 script:
-  - cmake ./ && make && bash -c ./test.sh
+  - cmake ./ && make && bash ./test.sh
