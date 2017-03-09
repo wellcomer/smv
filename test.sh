@@ -33,6 +33,12 @@ function run {
     let tnum=tnum+1
 }
 
+function mybasename {
+    filename=$(basename "$1")
+    extension="${filename##*.}"
+    return "${filename%.*}"
+}
+
 echo
 check_bin touch
 check_bin rm
@@ -94,7 +100,7 @@ run "Test dest" 0 test -e $tmpdir/smv/2004/02/29/datetest.txt
 touch $tmpdir/smv/1.txt
 touch $tmpdir/smv/2004/2.txt
 touch $tmpdir/smv/2004/02/3.txt
-run "Smv recursive (find + basename)" 0 find $tmpdir/smv -name \'*.txt\' -exec $smv -h \'basename -s .txt\' {} %~%/%1%.ext '\;'
+run "Smv recursive (find + basename)" 0 find $tmpdir/smv -name \'*.txt\' -exec $smv -h ./mybasename {} %~%/%1%.ext '\;'
 run "Test dest" 0 test -e $tmpdir/smv/2004/02/29/datetest.ext
 run "Test dest" 0 test -e $tmpdir/smv/2004/02/3.ext
 run "Test dest" 0 test -e $tmpdir/smv/2004/2.ext
