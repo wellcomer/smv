@@ -71,7 +71,7 @@
  For a detailed consideration of the work stages, values and results of variable
  substitution, use the -n -v options.
 
-#### Using:
+#### Usage:
 
  Moving a file (./test) to the yyyy/mm/dd directory, depending on the file
  modification time:
@@ -96,7 +96,7 @@
  /usr/local/bin/smv -ph 'stat -c %y' $wd/'*.txt' $wd/%1,1,4%/%1,6,2%/%0
  ```
 
-#### Exit codes:
+#### Exit values:
 
 ```
  0 - Success
