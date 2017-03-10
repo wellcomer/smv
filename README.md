@@ -4,6 +4,9 @@
  
  [![Build Status](https://travis-ci.org/wellcomer/smv.svg?branch=master)](https://travis-ci.org/wellcomer/smv)
 
+ Rename files using helper. Helper is a program that takes the name of a file and prints text to stdout.
+ Smv parses the helper stdout, fills variables and substitutes them in the DESTINATION_PATTERN.
+
 #### Command line arguments:
 
  `smv [-d char|-n|-i|-p|-q|-v|-m flags|-h helper] SOURCE_PATTERN DESTINATION_PATTERN`
