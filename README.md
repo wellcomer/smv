@@ -100,18 +100,10 @@
 
 ```
  0 - Success
-
- #define EXIT_ERR_NOT_FOUND 1
- Source file not found
-
- #define EXIT_ERR_HELPER_FAILED 2
- Helper launch error
-
- #define EXIT_ERR_BAD_PATTERN 3
- Errors in the DESTINATION_PATTERN
-
- #define EXIT_ERR_RENAME_FAILED 4
- Could not rename file
+ 1 - Source file not found
+ 2 - Helper launch error
+ 3 - Errors in the DESTINATION_PATTERN
+ 4 - Could not rename file
  ```
 
 #### Build (workdir for an example /home/user):
