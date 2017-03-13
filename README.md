@@ -125,7 +125,7 @@
 ##### Build with gcc:
 ```
  cd /home/user/smv
- gcc main.c -DNDEBUG -o smv
+ gcc smv.c -DNDEBUG -o smv
 ```
 ##### Or build with cmake:
 ```
