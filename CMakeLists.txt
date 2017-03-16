@@ -10,6 +10,9 @@ endif(MANDIR)
 
 add_executable(smv ${SOURCE_FILES})
 
+add_test(NAME test.sh COMMAND test.sh)
+enable_testing()
+
 install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
 install(FILES ${MANPAGES} DESTINATION ${DESTINATION_MAN_PAGE})
 
